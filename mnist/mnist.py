@@ -11,8 +11,15 @@ print("测试集大小：", images_test.shape)
 # plt.imshow(images_train[0])
 # plt.show()
 
-model = tf.keras.Sequential(
+# 将二维图片展开成一维数组
+# 定义一个128个节点的神经网络层
+# 定义一个10节点的softmax层，用于输出10个可能的分类
+model = tf.keras.Sequential([
     tf.keras.layers.Flatten(input_shape=(28, 28)),
     tf.keras.layers.Dense(128, activation="relu"),
     tf.keras.layers.Dense(10, activation="softmax")
-)
+])
+
+model.compile(optimizer="adam", loss="sparse_categorical_crossentropy", metrics=["accuracy"])
+
+model.fit(images_train, labels_train, epochs=10)
