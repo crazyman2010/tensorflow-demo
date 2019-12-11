@@ -17,13 +17,13 @@ y_train = f(x_train) + np.random.randn(*x_train.shape) * 0.4
 
 # 定义模型， 使用一层全连接， 输出为一维，输入为一维
 model = tf.keras.Sequential(
-    tf.keras.layers.Dense(1, input_shape=(1,))
+    [tf.keras.layers.Dense(1, input_shape=(1,))]
 )
 # 编译模型， 使用adam(梯度下降）作为优化函数， 使用mse(均方差）作为损失函数
-model.compile(optimizer='adam', loss='mse')
+model.compile(optimizer='adam', loss='mse', metrics=["accuracy"])
 
 # 开始训练
-model.fit(x_train, y_train, batch_size=10, verbose=2, epochs=800)
+model.fit(x_train, y_train, batch_size=10, verbose=2, epochs=10)
 
 # 生成标签数据，评估误差
 x_test = np.linspace(-1, 1, 30)

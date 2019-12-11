@@ -14,10 +14,10 @@ y_train = df[10:, 12]
 x_test = df[0:10, :12]
 y_test = df[0:10, 12]
 
-model = tf.keras.Sequential(
+model = tf.keras.Sequential([
     tf.keras.layers.Dense(1, input_shape=(12,))
-)
-model.compile(optimizer="sgd", loss="mse")
+])
+model.compile(optimizer="sgd", loss="mse", metrics=["accuracy"])
 
 model.fit(x_train, y_train, batch_size=10, verbose=2, epochs=100)
 # 评估损失， 不太好， 在20+
