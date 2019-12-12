@@ -1,6 +1,4 @@
 import tensorflow as tf
-import numpy as np
-import matplotlib.pyplot as plt
 
 # 获取训练与测试数据
 (images_train, labels_train), (images_test, labels_test) = tf.keras.datasets.mnist.load_data()
@@ -23,7 +21,7 @@ model = tf.keras.Sequential([
 
 model.compile(optimizer="adam", loss="sparse_categorical_crossentropy", metrics=["accuracy"])
 # 开始训练
-model.fit(images_train, labels_train, epochs=10)
+model.fit(images_train, labels_train, epochs=5)
 
 # 评估误差
 model.evaluate(images_test, labels_test, verbose=2)
