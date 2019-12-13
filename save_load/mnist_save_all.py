@@ -1,3 +1,5 @@
+import os
+
 import tensorflow as tf
 
 # 获取训练与测试数据
@@ -12,15 +14,9 @@ model = tf.keras.Sequential([
 
 model.compile(optimizer="adam", loss="sparse_categorical_crossentropy", metrics=["accuracy"])
 
-model.summary()
-
-# 设置保存点信息
-checkpoint_path = "checkpoints/cp.ckpt"
-cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
-                                                 save_weights_only=True,
-                                                 verbose=1,
-                                                 period=1)
 # 开始训练, 训练会自动保存权重
 model.fit(images_train, labels_train, epochs=5,
-          validation_data=(images_test, labels_test),
-          callbacks=[cp_callback])
+          validation_data=(images_test, labels_test))
+
+os.mkdir("models")
+model.save("models/mnist_model.h5")
