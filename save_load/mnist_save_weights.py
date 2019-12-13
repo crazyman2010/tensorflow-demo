@@ -1,5 +1,3 @@
-import os
-
 import tensorflow as tf
 
 # 获取训练与测试数据
@@ -18,7 +16,6 @@ model.summary()
 
 # 设置保存点信息
 checkpoint_path = "checkpoints/cp.ckpt"
-checkpoint_dir = os.path.dirname(checkpoint_path)
 cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
                                                  save_weights_only=True,
                                                  verbose=1)
