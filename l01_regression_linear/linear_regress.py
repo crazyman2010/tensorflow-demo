@@ -1,6 +1,6 @@
-import tensorflow as tf
 import matplotlib.pyplot as plt
 import numpy as np
+import tensorflow as tf
 
 
 # 线性回归， f(x) = 2*x + 1
