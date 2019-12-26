@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import tensorflow as tf
 
 (train_images, train_labels), (test_images, test_labels) = tf.keras.datasets.cifar10.load_data()
@@ -28,6 +29,16 @@ model = tf.keras.Sequential([
 ])
 print(model.summary())
 
-model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+model.compile(optimizer=tf.keras.optimizers.Adam(),
+              loss=tf.keras.losses.SparseCategoricalCrossentropy(), metrics=['accuracy'])
 
-model.fit(train_images, train_labels, epochs=10, validation_data=(test_images, test_labels))
+history = model.fit(train_images, train_labels, epochs=5, validation_data=(test_images, test_labels),
+                    callbacks=[tf.keras.callbacks.History()])
+
+plt.plot(history.history['accuracy'], label='accuracy')
+plt.plot(history.history['val_accuracy'], label='val_accuracy')
+plt.xlabel('Epoch')
+plt.ylabel('Accuracy')
+plt.ylim([0.5, 1])
+plt.legend(loc='lower right')
+plt.show()
