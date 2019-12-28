@@ -1,10 +1,10 @@
 import PIL.Image
+import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
 
 # 图片下载地址
 url = 'https://storage.googleapis.com/download.tensorflow.org/example_images/YellowLabradorLooking_new.jpg'
-
 
 # 图片下载函数
 def download(url, max_dim=None):
@@ -52,7 +52,6 @@ class DeepDream(tf.Module):
     def __call__(self, img, steps, step_size):
         loss = tf.constant(0.0)
         for n in tf.range(steps):
-            print("Tracing >>", n)
             with tf.GradientTape() as tape:
                 tape.watch(img)
                 loss = calc_loss(img, self.model)
@@ -68,26 +67,6 @@ class DeepDream(tf.Module):
         return loss, img
 
 
-def run_deep_dream_simple(img, steps=100, step_size=0.01):
-    img = tf.keras.applications.inception_v3.preprocess_input(img)
-    img = tf.convert_to_tensor(img)
-    step_size = tf.convert_to_tensor(step_size)
-    steps_remaining = steps
-    step = 0
-    while steps_remaining:
-        if steps_remaining > 100:
-            run_steps = tf.constant(100)
-        else:
-            run_steps = tf.constant(steps_remaining)
-        steps_remaining -= run_steps
-        step += run_steps
-
-        loss, img = deepdream(img, run_steps, tf.constant(step_size))
-        print("Step {}, loss {}".format(step, loss))
-
-    return img
-
-
 # 下载图片，并设置大小为500x500
 original_img = download(url, max_dim=500)
 # plt.imshow(original_img)
@@ -101,8 +80,12 @@ layers = [base_model.get_layer(name).output for name in names]
 dream_model = tf.keras.Model(inputs=base_model.input, outputs=layers)
 # print(dream_model.summary())
 
-deepdream = DeepDream(dream_model)
-
-dream_img = run_deep_dream_simple(img=original_img, steps=100, step_size=0.01)
-# plt.imshow(dream_img)
-# plt.show()
+# 对图像进行预处理,处理后图像在[-1,1]区间内
+img = tf.keras.applications.inception_v3.preprocess_input(original_img)
+# 将图像数组转换成张量
+img = tf.convert_to_tensor(img)
+# 计算梯度，并把梯度加到图像上面
+deep_dream = DeepDream(dream_model)
+loss, dream_img = deep_dream(img, 100, tf.constant(0.01))
+plt.imshow(dream_img)
+plt.show()
