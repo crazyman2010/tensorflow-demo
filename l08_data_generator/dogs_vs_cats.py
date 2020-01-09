@@ -22,8 +22,8 @@ total_train_image_size = len(os.listdir(train_cats_dir)) + len(os.listdir(train_
 total_validation_image_size = len(os.listdir(validation_cats_dir)) + len(os.listdir(validation_dogs_dir))
 batch_size = 128
 epochs = 2
-IMG_HEIGHT = 150
-IMG_WIDTH = 150
+IMG_HEIGHT = 48
+IMG_WIDTH = 48
 
 train_image_generator = ImageDataGenerator(rescale=1. / 255)
 validation_images_generator = ImageDataGenerator(rescale=1. / 255)
