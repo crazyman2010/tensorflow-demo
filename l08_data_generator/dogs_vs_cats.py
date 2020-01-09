@@ -51,7 +51,7 @@ class_names = ['cat', 'dog']
 # plt.show()
 
 model = tf.keras.Sequential([
-    Conv2D(16, 3, padding='same', activation='relu', input_shape=(IMG_WIDTH, IMG_HEIGHT, 3)),
+    Conv2D(16, 3, padding='same', activation='relu', input_shape=(IMG_HEIGHT, IMG_WIDTH, 3)),
     MaxPooling2D(),
     Conv2D(16, 3, padding='same', activation='relu'),
     MaxPooling2D(),
